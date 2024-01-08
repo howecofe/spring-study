@@ -24,6 +24,40 @@ public class DBConnectionTest2Test {
     DataSource ds;
 
     @Test
+    public void transactionTest() throws Exception {
+        Connection conn = null;
+        try {
+            deleteAll();
+            conn = ds.getConnection();
+            conn.setAutoCommit(false); // 기본값 true, 여러 개의 쿼리를 하나의 Tx로 묶기 위해 auto commit false
+
+            String sql = "insert into user_info values (?, ?, ?, ?, ?, ?, now())";
+
+            // insert 1번 수행
+            PreparedStatement pstmt = conn.prepareStatement(sql); // 장점: 1) SQL Injection 공격 방어, 2) 성능 향상
+            pstmt.setString(1, "asdf"); // 첫번째 물음표를 두번째 인자로 채우기
+            pstmt.setString(2, "1234");
+            pstmt.setString(3, "abc");
+            pstmt.setString(4, "aaa@aaa.com");
+            pstmt.setDate(5, new java.sql.Date(new Date().getTime())); // java.util.Date 를 java.sql.Date 로 변환
+            pstmt.setString(6, "fb");
+
+            int rowCnt = pstmt.executeUpdate(); // 실행된 쿼리문 개수, insert, delete, update 쿼리에 사용
+
+            // insert 2번 수행
+            pstmt.setString(1, "asdf");
+            rowCnt = pstmt.executeUpdate();
+
+            conn.commit();
+
+        } catch (Exception e) {
+            conn.rollback(); // 쿼리문 수행 중 에러 생기면 롤백 수행
+            e.printStackTrace();
+        } finally {
+        }
+    }
+
+    @Test
     public void insertUserTest() throws  Exception {
         User user = new User("asdf2", "1234", "abc", "aaaa@aaa.com", new Date(), "fb", new Date());
         deleteAll();
