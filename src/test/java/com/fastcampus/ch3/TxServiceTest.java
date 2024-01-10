@@ -12,6 +12,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TxServiceTest extends TestCase {
     @Autowired TxService txService;
 
+    // @Transactional propagation 테스트
+    @Test
+    public void insertA1DaoWithTxTest() throws Exception {
+        txService.deleteAllA1Dao();
+        txService.deleteAllB1Dao();
+
+        txService.insertA1DaoWithTx();
+    }
+
     @Test
     public void insertA1DaoWithoutTxTest() throws Exception {
         txService.deleteAllA1Dao();
