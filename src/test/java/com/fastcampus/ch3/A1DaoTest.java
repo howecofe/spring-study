@@ -22,12 +22,16 @@ public class A1DaoTest extends TestCase {
     @Autowired
     DataSource ds;
 
+    // 방법 1. 빈에 등록된 TxManager 객체 사용
+    @Autowired
+    DataSourceTransactionManager tm;
+
     @Test
     public void insertTest() throws Exception {
         a1Dao.deleteAll();
 
-        // TxManager 생성
-        PlatformTransactionManager tm = new DataSourceTransactionManager(ds);
+        // 방법 2. TxManager 직접 생성
+//        PlatformTransactionManager tm = new DataSourceTransactionManager(ds);
         TransactionStatus status = tm.getTransaction(new DefaultTransactionDefinition());
 
         try {

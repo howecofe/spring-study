@@ -19,4 +19,9 @@
 	<context:component-scan base-package="com.fastcampus.ch3">
 		<context:exclude-filter type="regex" expression="com.fastcampus.ch3.diCopy*.*"/>
 	</context:component-scan>
+
+<!--	TransactionManager 빈으로 등록-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
 </beans>
