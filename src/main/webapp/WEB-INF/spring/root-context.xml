@@ -19,6 +19,17 @@
 		<property name="password" value="qwer1234"></property>
 	</bean>
 
+<!--	MyBatis 설정-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+				<property name="configLocation"  value="classpath:mybatis-config.xml"/> <!-- mybatis 설정 파일 위치 -->
+				<property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/> <!-- SQL 담긴 파일 -->
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
+
 <!--	Transaction 설정-->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
