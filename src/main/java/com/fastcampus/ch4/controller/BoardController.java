@@ -22,6 +22,19 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @GetMapping("/read")
+    public String read(Integer bno, Model m) {
+        try {
+            BoardDto boardDto = boardService.read(bno);
+//            m.addAttribute("boardDto", boardDto); // 아래 문장과 동일
+            m.addAttribute(boardDto); // 이름을 생략하면 타입(BoardDto)의 첫번째 글자를 소문자로 바꾼 것을 이름으로 저장한다.
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "board";
+    }
+
     @GetMapping("/list")
     public String list(Integer page, Integer pageSize, Model m, HttpServletRequest request) {
         if(!loginCheck(request))
