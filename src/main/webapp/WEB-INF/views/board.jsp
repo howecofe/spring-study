@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>fastcampus</title>
     <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <div id="menu">
@@ -19,14 +20,6 @@
         <li><a href=""><i class="fas fa-search small"></i></a></li>
     </ul>
 </div><div style="text-align:center">
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
     <h2>게시물 읽기</h2>
     <form action="" id="form">
         <input type="text" name="bno" value="${boardDto.bno}" readonly="readonly">
@@ -37,8 +30,15 @@
         <button type="button" id="removeBtn" class="btn">삭제</button>
         <button type="button" id="listBtn" class="btn">목록</button>
     </form>
-    </body>
-    </html>
 </div>
+<script>
+    // jquery
+    $(document).ready(function (){ // main()
+        $('#listBtn').on("click", function (){
+            location.href = "<c:url value='/board/list?page=${page}&pageSize=${pageSize}' />";
+        });
+
+    });
+</script>
 </body>
 </html>

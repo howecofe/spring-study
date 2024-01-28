@@ -13,7 +13,7 @@
     <ul>
         <li id="logo"></li>
         <li><a href="<c:url value='/'/>">Home</a></li>
-        <li><a href="<c:url value='/board/list'/>">Board</a></li>
+        <li><a href="<c:url value='/board/list'/>">boardDto</a></li>
         <li><a href="<c:url value='/login/login'/>">login</a></li>
         <li><a href="<c:url value='/register/add'/>">Sign in</a></li>
         <li><a href=""><i class="fas fa-search small"></i></a></li>
@@ -27,13 +27,13 @@
             <th>등록일</th>
             <th>조회수</th>
         </tr>
-        <c:forEach var="board" items="${list}">
+        <c:forEach var="boardDto" items="${list}">
             <tr>
-                <td>${board.bno}</td>
-                <td>${board.title}</td>
-                <td>${board.writer}</td>
-                <td>${board.reg_date}</td>
-                <td>${board.view_cnt}</td>
+                <td>${boardDto.bno}</td>
+                <td><a href="<c:url value='/board/read?bno=${boardDto.bno}&page=${page}&pageSize=${pageSize}' />">${boardDto.title}</a></td>
+                <td>${boardDto.writer}</td>
+                <td>${boardDto.reg_date}</td>
+                <td>${boardDto.view_cnt}</td>
             </tr>
         </c:forEach>
     </table>

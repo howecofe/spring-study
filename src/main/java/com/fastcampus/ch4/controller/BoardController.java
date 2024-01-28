@@ -23,11 +23,13 @@ public class BoardController {
     BoardService boardService;
 
     @GetMapping("/read")
-    public String read(Integer bno, Model m) {
+    public String read(Integer bno, Integer page, Integer pageSize, Model m) {
         try {
             BoardDto boardDto = boardService.read(bno);
 //            m.addAttribute("boardDto", boardDto); // 아래 문장과 동일
             m.addAttribute(boardDto); // 이름을 생략하면 타입(BoardDto)의 첫번째 글자를 소문자로 바꾼 것을 이름으로 저장한다.
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,6 +56,8 @@ public class BoardController {
             List<BoardDto> list = boardService.getPage(map);
             m.addAttribute("list", list);
             m.addAttribute("ph", pageHandler);
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
         } catch (Exception e) {
             e.printStackTrace();
         }
