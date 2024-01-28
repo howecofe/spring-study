@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +23,30 @@ import java.util.Map;
 public class BoardController {
     @Autowired
     BoardService boardService;
+
+    @PostMapping("/remove")
+    public String remove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id");
+        try {
+            // 모델에 담으면 redirect할때 파라미터가 자동으로 붙는다.
+            m.addAttribute("page", page);
+            m.addAttribute("pageSize", pageSize);
+
+            int rowCnt = boardService.remove(bno, writer);
+
+            if (rowCnt != 1)
+                throw new Exception("board remove error");
+
+            rattr.addFlashAttribute("msg", "DEL_OK"); // 새로고침(reload)했을 때 메세지 계속 표시 안되고 1번만 표시되도록! 일회성.
+            return "redirect:/board/list";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            rattr.addFlashAttribute("msg", "DEL_ERR");
+        }
+
+        return "redirect:/board/list";
+    }
 
     @GetMapping("/read")
     public String read(Integer bno, Integer page, Integer pageSize, Model m) {
