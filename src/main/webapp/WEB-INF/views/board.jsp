@@ -19,7 +19,12 @@
         <li><a href="<c:url value='/register/add'/>">Sign in</a></li>
         <li><a href=""><i class="fas fa-search small"></i></a></li>
     </ul>
-</div><div style="text-align:center">
+</div>
+<script>
+    let msg = "${msg}";
+    if (msg == "WRT_ERR") alert("게시물 등록에 실패했습니다. 다시 시도해 주세요.")
+</script>
+<div style="text-align:center">
     <h2>게시물 ${mode == "new"? "글쓰기" : "읽기"}</h2>
     <form action="" id="form">
         <input type="hidden" name="bno" value="${boardDto.bno}">
@@ -41,7 +46,14 @@
         $('#removeBtn').on("click", function (){
             if (!confirm("정말로 삭제하시겠습니까?")) return;
             let form = $('#form');
-            form.attr("action", "<c:url value='/board/remove' />?&page=${page}&pageSize=${pageSize}");
+            form.attr("action", "<c:url value='/board/remove' />?page=${page}&pageSize=${pageSize}");
+            form.attr("method", "post");
+            form.submit();
+        });
+
+        $('#writeBtn').on("click", function (){
+           let form = $('#form');
+            form.attr("action", "<c:url value='/board/write' />");
             form.attr("method", "post");
             form.submit();
         });

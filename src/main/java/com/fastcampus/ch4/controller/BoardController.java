@@ -24,6 +24,29 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @PostMapping("/write")
+    public String write(BoardDto boardDto, Model m, HttpSession session, RedirectAttributes rattr) {
+        String writer = (String) session.getAttribute("id");
+        boardDto.setWriter(writer);
+
+        try {
+            int rowCnt = boardService.write(boardDto); // insert
+
+            if (rowCnt != 1)
+                throw new Exception("Write failed"); // 에러가 발생하지 않아도 rowCnt == 0 일 수 있으므로 처리 필요
+
+            rattr.addFlashAttribute("msg", "WRT_OK"); // session을 이용한 일회성 저장
+
+            return "redirect:/board/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute("mode", "new"); // 글쓰기 모드로
+            m.addAttribute(boardDto); // 입력하던 내용 다시 보여주기 위함
+            m.addAttribute("msg", "WRT_ERR");
+            return "board";
+        }
+    }
+
     @GetMapping("/write")
     public String write(Model m) {
         m.addAttribute("mode", "new");

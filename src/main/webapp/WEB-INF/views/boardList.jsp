@@ -21,6 +21,7 @@
 </div>
 <script>
     let msg = "${msg}"
+    if (msg==="WRT_OK") alert("성공적으로 등록되었습니다.")
     if (msg==="DEL_OK") alert("성공적으로 삭제되었습니다.")
     if (msg==="DEL_ERR") alert("삭제에 실패했습니다.")
 </script>
