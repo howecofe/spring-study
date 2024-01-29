@@ -18,6 +18,7 @@
         set title = #{title},
             content = #{content},
             up_date = now()
+        where bno = #{bno} and writer = #{writer}
     </update>
 
     <delete id="deleteForAdmin" parameterType="int">
