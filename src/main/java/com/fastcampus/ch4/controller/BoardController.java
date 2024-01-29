@@ -24,6 +24,12 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @GetMapping("/write")
+    public String write(Model m) {
+        m.addAttribute("mode", "new");
+        return "board"; // board.jsp를 읽기와 쓰기에 사용. 쓰기에 사용할 때는 mode=new
+    }
+
     @PostMapping("/remove")
     public String remove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
         String writer = (String) session.getAttribute("id");
