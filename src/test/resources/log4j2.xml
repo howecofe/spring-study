@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--<Configuration> : java global logging config-->
+<Configuration status="INFO">
+
+<!--<Properties> : 변수 지정-->
+    <Properties>
+        <Property name="consoleLayout">%style{%d{HH:mm:ss}} %highlight{%-5level} %style{%C{1.}}{bright,yellow}: %msg%n%throwable</Property>
+    </Properties>
+
+<!--<Appenders> : log를 어디에 찍을 것인지-->
+    <Appenders>
+        <Console name="Console_Appender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${consoleLayout}"/>
+        </Console>
+    </Appenders>
+
+<!--<Loggers> : 실제로 로깅하고 싶은 클래스 지정-->
+<!--    <AppenderRef> : 출력하고 싶은 Appender 지정-->
+    <Loggers>
+        <Root level="INFO" additivity="false">
+            <AppenderRef ref="Console_Appender"/>
+        </Root>
+
+        <Logger name="org.springframework" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console_Appender"/>
+        </Logger>
+
+        <logger name="log4jdbc.log4j2" level="info" additivity="false">
+            <MarkerFilter marker="LOG4JDBC_OTHER" onMatch="DENY" onMismatch="NEUTRAL"/>
+            <appender-ref ref="Console_Appender"/>
+        </logger>
+
+<!--        MyBatis Dao 클래스 설정-->
+        <logger name="com.fastcampus.ch4.dao" level="Trace" additivity="false">
+            <appender-ref ref="Console_Appender"/>
+        </logger>
+    </Loggers>
+</Configuration>

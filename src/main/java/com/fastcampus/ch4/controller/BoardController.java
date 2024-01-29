@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import com.fastcampus.ch4.domain.BoardDto;
 import com.fastcampus.ch4.domain.PageHandler;
 import com.fastcampus.ch4.service.BoardService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
+@Slf4j
 public class BoardController {
     @Autowired
     BoardService boardService;
@@ -79,6 +81,8 @@ public class BoardController {
 
     @GetMapping("/read")
     public String read(Integer bno, Integer page, Integer pageSize, Model m) {
+//        log.info("/board/read log test");
+
         try {
             BoardDto boardDto = boardService.read(bno);
 //            m.addAttribute("boardDto", boardDto); // 아래 문장과 동일
